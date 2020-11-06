@@ -5,25 +5,26 @@
 
 - [ ] WEBSITE
     - [x] Display Products - desktop & mobile view
-    - [] Search - product name / brand / category 
+    - [ ] Search - product name / brand / category 
+    - [x] Browse products via category
     - [x] User Signup & Login
     - [x] Forgot passowrd
-    - []  Session / Cookie guest checkout 
+    - [ ] Session / Cookie guest checkout 
+    - [ ] Contact & FAQ page 
 - [ ] ADMIN  
-    - []  Edit Projuct from main page
+    - [ ] Edit Projuct from main page
     - [x] View all orders
     - [x] Manage orders status
     - [x] Views & routes for crud o/p
-    - [] Ajax search / sugesstion automcomplete
-    - [x] Add projucts via ajax 
+    - [ ] Ajax search / sugesstion automcomplete
+    - [x] Add projucts / brands / category via ajax 
+    - [ ] Email shoot 
 - [x] USER
-    - [x] View all products
-    - [x] Browse products via category
-    - [x] Add item's to cart 
+    - [x] Add item's to cart & store
     - [x] Project stocks constraint to cart
     - [x] Checkout - COD
     - [x] View all previous orders  
-    - []  Edit profile 
+    - [ ]  Edit profile 
 - [x] API 
     - [x] Api routes display
     - [x] Get products list - nested json
@@ -112,12 +113,8 @@ DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 
 &nbsp;
 
-&nbsp;
-
 ### Easy guide to host on python anywhere
 > https://tutorial.djangogirls.org/en/deploy/
-
-&nbsp;
 
 &nbsp;
 
