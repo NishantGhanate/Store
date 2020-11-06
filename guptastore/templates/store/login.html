@@ -1,0 +1,39 @@
+{% extends 'store/main.html' %}
+
+{% block title %} Login {% endblock%}
+
+{% block content %}
+
+
+<form action="/login" method="post">
+    {% csrf_token %}
+     <div class='container' style="margin-top: 5% !important; width: 30%;">
+      <div class='centerFormHeader' style="color: rgb(104, 104, 104);">
+        <h3> Logo </h3>
+        <p>Welcome back </p>
+      </div>
+       <input name="username" type="text" class="form-control" id="id_username_login" placeholder="Username" required="true"> 
+        <br>
+      <input name="password" type="password" class="form-control" id="id_password_login" placeholder="Enter password...">
+        <br><br>
+      <input  type="submit"  class="loginCred" id="id_submit_login" value="LOGIN"> 
+      <a href="/signin" class="anchorLogin" id="id_register_login"> Don't have an account signup ?</a>
+      <a href="/reset_password" class="anchorLogin" id="id_forgot_login"> Forgot password ? </a>
+      {% if errorMessages %}
+      <br>
+      <div id='errorMessage'>
+          <p>{{errorMessages}}</p>
+      </div>
+      {% endif %}
+      {% if messages %} 
+      <br>
+      <div id='infoMessage'>
+        {% for message in messages %}
+          <span>{{message}}</span>
+        {% endfor %}  
+      </div>
+      {% endif %}
+    </div>
+  </form>
+
+{% endblock %}

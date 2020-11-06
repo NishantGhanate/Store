@@ -1,0 +1,32 @@
+{% extends 'store/main.html' %}
+
+{% block title %} Add Productinfo {% endblock%}
+{% load static %}
+
+{% block content %}
+
+
+<form method="post" action="/store/product_add" class="" role="form" id="createProductForm" data-toggle="validator">
+    {% csrf_token %}
+    <div class="form-row" id="product-add-form" style="margin-top: 15px; text-align: center;">
+        <div class="col">
+            <label for="Weight"> Weight </label>
+            <input type="text" class="form-control" id="input-weight" value="" placeholder="Weight">
+        </div>
+        <div class="col" >
+            <label for="Price"  > ₹ </label>
+            <input type="number" class="form-control" id="input-price" value="" placeholder="Price" min="1" >
+        </div>
+        <div class="col">
+            <label for="Quantity"> Quantity</label>
+            <input type="number" class="form-control" id="input-quantity" value="" placeholder="Quantity"  min="1" >
+        </div>
+        <div>
+            <label for="Add"> Add </label>
+            <button id="button-add" class="form-control button-add" >
+                <i class="fas fa-plus-square"> </i>
+            </button>
+        </div>
+    </div>
+
+{% endblock %}

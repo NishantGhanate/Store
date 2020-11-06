@@ -1,0 +1,11 @@
+Api - https://www.django-rest-framework.org/tutorial/1-serialization/#writing-regular-django-views-using-our-serializer
+ORM JOIN - https://stackoverflow.com/questions/13092268/how-do-you-join-two-tables-on-a-foreign-key-field-using-django-orm
+X-CSRFToken - https://docs.djangoproject.com/en/3.1/ref/csrf/
+SEARCH - https://stackoverflow.com/questions/18140838/sql-like-equivalent-in-django-query
+       - https://stackoverflow.com/questions/46755423/searching-a-few-columns-in-django
+
+ARRAY  - https://docs.djangoproject.com/en/3.0/ref/contrib/postgres/fields/
+
+AJAX - https://www.pluralsight.com/guides/work-with-ajax-django
+       https://stackoverflow.com/questions/3046419/how-to-exclude-results-with-get-object-or-404
+       https://docs.djangoproject.com/en/3.1/topics/http/shortcuts/

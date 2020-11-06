@@ -1,0 +1,46 @@
+https://stackoverflow.com/questions/35894498/how-to-efficiently-use-set-all-in-django
+
+# def save(self, *args, **kwargs):
+    #     self.brand = self.brand.lower()
+    #     self.manufacture = self.manufacture.lower()
+    #     self.cateogry = self.cateogry.lower()
+    #     return super(Product, self).save(*args, **kwargs)
+
+
+product =  Product.objects.first()
+print(product)
+products = product.productinfo_set.all()
+print(products)
+
+  <!-- <p>Buy best</p> -->
+                <!-- <form class="form-inline" action="/" style="margin-bottom: 10px !important;">
+                    <div class="form-group col-md-10">
+                      <input type="search" name="query" class="form-control col-md-12" id="query" placeholder=" e.g maggi ">
+                    </div>
+                    <div class="form-group col-md-12" style="display: block; margin-top: 10px;">
+                      <button type="submit" class="btn btn-light">Search product</button>
+                    </div>
+                </form> -->
+
+
+# On product selection change alter onclick attribute value 
+{% if user.is_staff  %}
+    <button class="btn btn-sm btn-outline-primary" onclick="location.href = '/store/product_edit/{{product.id}}';" style="margin-left: 5px;"> 
+        i class="fas fa-pencil"></i>
+    </button>
+{% endif %}
+
+
+
+{% if forloop.counter0 == 0 %} selected {% endif %}
+
+
+<div style="flex: 1;">
+                  <a href="/orders/{{order.order_no}}">
+                    <button class="order-button" 
+                    data-order_id="" data-action="view" 
+                    data-toggle="modal" data-target="#orderModal"> 
+                      <i class="fas fa-archive"> </i>
+                    </button>
+                  </a>
+                </div>

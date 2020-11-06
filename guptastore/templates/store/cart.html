@@ -1,0 +1,70 @@
+{% extends 'store/main.html' %}
+
+{% load tags %}
+{% block title %} Cart {% endblock%}
+
+{% block content %}
+
+
+<div class="cart-col" style="margin-top: 20px;">
+    <div class="col-lg-12">
+        <div class="box-element">
+            <a href="/" class="btn btn-outline-dark">&#x2190; Back</a>
+            <a href="/checkout_order" class="btn btn-outline-dark" style="float: right;"> Checkout &#x2192;  </a>
+            <br><br>
+            <table class="table">
+                <tr>
+                    <th><span style="font-size: 1rem;">Items : <strong id='cartCount'> {{ order.get_cart_quantity }} </strong></span></th>
+                    <th><span style="font-size: 1rem;">Total : <strong id='cartTotal'> {{ order.get_cart_total }} </strong> ₹ </span></th>
+                </tr>
+            </table>
+        </div>
+        <br>
+        <div class="box-element" id="cart-element-1">
+            <div class="cart-row">
+                <!-- <div style="flex: 2;"></div> -->
+                <div style="flex: 2;"><strong>Item</strong></div>
+                <div style="flex: 1;"><strong>₹</strong></div>
+                <div style="flex: 1;"><strong>Qt</strong></div>
+                <div style="flex: 1;"><strong>Sub</strong></div>
+                <div style="flex: 1;"><strong>Clear</strong></div>
+            </div>
+            <div class="cart-items">
+            {% for i in items %}
+            <div class="cart-row ">
+                <!-- <div style="flex: 2;"> <img class="row-image" src="" alt=""> </div> -->
+                <div style="flex: 2;">{{i.product.product_id.name}} {{i.product.weight}}</div>
+                <div style="flex: 1;" class="center">{{i.price}}</div>
+                <div style="flex: 1;">
+                    <p class="quatity"></p>
+                    <div class="quantity">
+                        <i class="update-cart fa fa-chevron-up " data-product_id="{{i.product.id}}"  data-action="add" aria-hidden="true" style="cursor: pointer;"></i> 
+                            <br> 
+                                <span class="item-quantity">
+                                    {{i.quantity}} 
+                                </span>   
+                            <br>
+                        <i class="update-cart fa fa-chevron-down" data-product_id="{{i.product.id}}" data-action="remove" aria-hidden="true" style="cursor: pointer;"></i>
+                    </div>
+                </div>
+                    <div style="flex: 1;" class="center">
+                        <span class="item-total">
+                            {{i.get_total}}
+                        </span>
+                    </div>
+                    <div style="flex: 1;">
+                        <button class="remove-button" data-product_id="{{i.product.id}}" data-action="delete"> 
+                            <i class="fas fa-trash"> </i>
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>     
+    </div>
+</div>
+
+
+
+
+{% endblock %}

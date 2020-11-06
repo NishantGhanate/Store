@@ -1,0 +1,226 @@
+body {
+    background-color:#f3f5fa !important;
+}
+
+body::-webkit-scrollbar{
+    width: 0.5rem;
+}
+
+body::-webkit-scrollbar-track{
+    background: whitesmoke;
+}
+
+body::-webkit-scrollbar-thumb{
+    background: #009751
+}
+
+.sidepanel-button{
+
+}
+.cart-row{
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #d6d6d6;
+    padding: .7rem;
+}
+
+.quantit{
+    display: inline-block;
+    font-weight: 700;
+    padding-right: 10px;
+}
+.row-image{
+    width: 100px;
+}
+
+.center {
+    margin-left: .7rem;
+    /* padding: 1.5rem; */
+}
+
+.delete-button{
+    border-radius: 4px;
+    margin-left: 1rem;
+    background: #f3f5fa;
+    color: tomato;
+   
+    border:none;
+    /* padding: 1rem; */
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.delete-button:hover{
+    background-color: tomato;
+    color: white;
+}
+
+.edit-button{
+    border-radius: 4px;
+    margin-left: 1rem;
+    background: #f3f5fa;
+    color: rgb(65, 65, 65);
+   
+    border:none;
+    /* padding: 1rem; */
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+
+.fa-trash , .fa-check , .fa-plus, .fa-minus , .fa-pencil ,  .fa-search{
+    pointer-events: none;
+}
+
+
+.order-button{
+    border-radius: 4px;
+    margin-left: 1rem;
+    background: #f3f5fa;
+    color: rgb(255, 196, 0);
+    border:none;
+    padding: 1rem;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.order-button:hover{
+    background-color: rgb(255, 196, 0);
+    color: white;
+}
+
+/* store css  */
+
+#query{
+    outline: none;
+    border: none !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+  }
+
+.product-image{
+    /* height: 150px; */
+    /* width: 150px;  */
+    object-fit: fill; 
+    float: left;
+    margin-left: -10px;
+    margin-right: 20px;
+  }
+
+  .item-counter{
+    margin-left: 0.5rem;
+    height: 30px; 
+    width: 40px;
+  }
+
+  .float{
+	position:fixed;
+	width:45px;
+	height:45px;
+	bottom:35px;
+	right:35px;
+	background-color:#0C9;
+	color:#FFF;
+	border-radius:50px;
+    text-align:center;
+	box-shadow: 2px 2px 3px #999;
+}
+
+.my-float{
+	margin-top:15px;
+}
+
+.button-edit{
+  color: #0C9;
+  background-color: #FFF;
+  border-color: aquamarine;
+}
+
+
+
+/* Product add */
+.button-add{
+    background-color: #3CB371;
+    color: white;
+}
+
+.button-add:active , .button-add:hover{
+    background-color: white;
+    color: #3CB371;
+}
+
+.trash-btn{
+    background-color: tomato;
+    color: white;
+}
+
+.trash-btn:active , .trash-btn:hover{
+    background-color: white;
+    color: tomato;
+}
+
+
+
+.form-row{
+    margin-top: 15px;
+}
+
+/* input:invalid {
+  box-shadow: 0 0 5px 1px red;
+}
+
+input:focus:invalid {
+  box-shadow: none;
+} */
+
+.error {
+  border-color: rgb(255, 0, 0);
+  border-radius: 0 0 5px 5px;
+  box-sizing: border-box;
+}
+
+.error.active {
+  padding: 0.3em;
+}
+
+
+/* Searchin autocomplete */
+
+/*the container must be positioned relative:*/
+    .autocomplete {
+        position: relative;
+        display: inline-block;
+    }
+  
+  .autocomplete-items {
+    position: absolute;
+    border: 1px solid #d4d4d4;
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    /*position the autocomplete items to be the same width as the container:*/
+    top: 100%;
+    left: 0;
+    right: 0;
+  }
+  
+  .autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: rgb(255, 255, 255); 
+    border-bottom: 1px solid #d4d4d4; 
+  }
+  
+  /*when hovering an item:*/
+  .autocomplete-items div:hover {
+    background-color: #e9e9e9; 
+  }
+  
+  /*when navigating through the items using the arrow keys:*/
+  .autocomplete-active {
+    background-color: DodgerBlue !important; 
+    color: #ffffff; 
+  }

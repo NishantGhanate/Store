@@ -1,0 +1,128 @@
+{% extends 'store/main.html' %}
+
+{% block title %} View order  {% endblock%}
+{% load static %}
+
+{% block content %}
+
+<div class="cart-col" >
+    <div class="col-lg-12">
+        <div class="box-element" style="display: inline;">
+            <a href="/orders/" class="btn btn-outline-dark">&#x2190;   </a>
+            <button class="btn btn-outline-dark" style="float: right;" data-toggle="modal" data-target="#shippingModal">  Address </button>
+            <br><br>
+        </div>
+        <div class="box-element">
+            <div class="cart-row" >
+                <div style="flex: 1;"><strong>#</strong></div>
+                <div style="flex: 4;"><strong>Item </strong></div>
+                <div style="flex: 1;" ><strong>Qty</strong></div>
+                <div style="flex: 1;"><strong>Sub</strong></div>
+            </div>
+            <div class="items"> 
+            {% for i in order.orderitem_set.all %}
+            <div class="cart-row" style="padding: 1rem; " >
+                <div style="flex: 1;"> {{ forloop.counter }} </div>
+                <div style="flex: 4;" > {{ i.product.product_id.name}}  </div>
+                <div style="flex: 1;" class="center"> {{ i.quantity}}  </div>   
+                <div style="flex: 1;" > {{i.price }}  </div>
+            </div>
+            {% endfor %}
+            </div>
+        </div>
+            
+    </div>
+</div>
+
+<!-- Chanage order status -->
+{% if user.is_staff  %}
+
+<form action="/orders/{{order.order_no}}" method="POST">
+  {% csrf_token %}
+  <select  name="status" class="selectpicker" data-title="Select Status" data-style="btn-default btn-block" data-menu-style="dropdown-blue">
+    {% for x,y in form.fields.status.choices %}
+       <option value="{{ x }}"{% if order.status == x %} selected{% endif %}>{{ y }}</option>
+    {% endfor %}
+  </select> 
+  <br> <br>
+  <button  type="submit" class="btn btn-primary" > Save </button>
+</form>
+
+{% endif %}
+
+
+<h6 style="float: right;  ">  Amount  : <strong> {{ order.get_cart_total }} </strong> ₹ </6>
+
+<div>
+    {% if items.has_other_pages %}
+    <ul class="pagination">
+      {% if items.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{ items.previous_page_number }}">&laquo;</a></li>
+      {% else %}
+        <li class="disabled"><a class="page-link">&laquo;</a></li>
+      {% endif %}
+      {% for i in items.paginator.page_range %}
+        {% if items.number == i %}
+          <li class="page-item"><a class="page-link">{{ i }} <span class="sr-only">(current)</span></a></li>
+        {% else %}
+          <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+        {% endif %}
+      {% endfor %}
+      {% if items.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ items.next_page_number }}">&raquo;</a></li>
+      {% else %}
+        <li class="disabled"><a class="page-link">&raquo;</a></li>
+      {% endif %}
+    </ul>
+    {% endif %}
+</div>
+
+
+<!-- Show Shipping Address Modal -->
+<div class="modal fade" id="shippingModal" tabindex="-1" role="dialog" aria-labelledby="shippingModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Shipping Address</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="Name">Name </label>
+            <input type="text" class="form-control" name="name" id="inputName" placeholder="Name" value="{{shipping.name}}" readonly>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="Phone">Phone</label>
+            <input type="tel" class="form-control" name="phone" id="inputPhone" placeholder="Phone" value="{{shipping.phone}}" readonly>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputAddress">Address</label>
+          <input type="text" class="form-control" name="address" id="inputAddress" placeholder="1234 Main St" value="{{shipping.address}}" readonly>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputCity">City</label>
+            <input type="text" class="form-control" name="city" id="inputCity" value="Mumbai" readonly>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputZip">Pincode</label>
+            <input type="text" class="form-control" name="pincode" id="inputPin" value="{{shipping.pincode}}" readonly>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  
+
+{% endblock %}
+

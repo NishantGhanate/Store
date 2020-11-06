@@ -1,0 +1,102 @@
+{% extends 'store/main.html' %}
+
+{% block title %} Store {% endblock%}
+
+{% block content %}
+
+
+<div class="products row">
+  {% for product in products %}
+  <div class="product col-md-3 ">
+    <div class="card mb-3 box-shadow">
+      <div class="card-body">
+          <img src="{{product.product_image}}" style="display: block; width: 150px; height: 150px; margin-left: auto;
+          margin-right: auto;" alt="">
+          <br>
+          <small class="text-muted" onclick="location.href='/subcategory/1';" style="display: block; font: .8rem sans-serif;">  {{product.brand.name }}  </small>
+          <small class="text"  style="display: block;"> {{product.name }}  </small>
+          <select class="selected-product" style="margin-top: 0.8rem;">
+            <option selected> Select </option>
+            {% for  p in product.product_info.all %}
+            <option value="{{p.id}}" > {{p.weight}} - Rs {{p.price}}  </option>
+            {% endfor %}
+          </select>
+          <div class="row mx-md-n0" style="margin-top: 1rem;">
+            <div class="" style="margin-left: 5%">
+              <div class="">
+                <button class="update-cart btn btn-sm btn-outline-primary" data-product_id=""  data-action="add" >
+                  Add 
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+              </div>
+            </div>
+            <!-- <div class="" style="margin-left: 5%">
+              <div class="">
+              <button class="update-cart btn btn-sm btn-outline-secondary" data-product_id="" data-action="remove" > 
+                <i class="fas fa-minus" aria-hidden="true"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-secondary" style="width: 30px;"> 
+                1
+              </button>
+              <button class="update-cart btn btn-sm btn-outline-secondary" data-product_id="" data-action="add"  > 
+                <i class="fas fa-plus" aria-hidden="true"></i>
+              </button>
+              </div>
+            </div> -->
+            {% if user.is_staff  %}  
+            <div class="" style="margin-left: 5%;">
+              <div class="">
+                <button class="edit-product btn btn-sm btn-outline-dark float-right" data-product_id=""> 
+                  <i class="fas fa-pencil"></i>
+                </button>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+</div>
+
+<!-- pagination -->
+<div>
+{% if products.has_other_pages %}
+<ul class="pagination">
+  {% if products.has_previous %}
+    <li class="page-item"><a class="page-link" href="?page={{ products.previous_page_number }}">&laquo;</a></li>
+  {% else %}
+    <li class="disabled"><a class="page-link">&laquo;</a></li>
+  {% endif %}
+  {% for i in products.paginator.page_range %}
+    {% if products.number == i %}
+      <li class="page-item"><a class="page-link">{{ i }} <span class="sr-only">(current)</span></a></li>
+    {% else %}
+      <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+    {% endif %}
+  {% endfor %}
+  {% if products.has_next %}
+    <li class="page-item"><a class="page-link" href="?page={{ products.next_page_number }}">&raquo;</a></li>
+  {% else %}
+    <li class="disabled"><a class="page-link">&raquo;</a></li>
+  {% endif %}
+</ul>
+{% endif %}
+</div>
+
+{% if user.is_staff  %}
+<a href="/store/add_product" class="float">
+  <i class="fa fa-plus my-float"></i>
+</a>
+{% endif %}
+
+
+<script>
+
+
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,9 @@
+# sub_cateogry = CategorySub.objects.prefetch_related('category').get(id=id)
+# sub_cateogry = CategorySub.objects.select_related('category').get(id=id)
+
+cateogry = Category.objects.get(pk=id)
+print(cateogry)
+sub_category = CategorySub.objects.filter(category=cateogry)  
+
+Effecient - lookup
+sub_category = CategorySub.objects.filter(category__id=id)    

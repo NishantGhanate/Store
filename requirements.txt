@@ -1,0 +1,15 @@
+appdirs==1.4.4
+asgiref==3.2.10
+distlib==0.3.1
+Django==3.0.8
+django-clear-cache==0.3
+django-filter==2.3.0
+djangorestframework==3.11.1
+filelock==3.0.12
+Pillow==7.2.0
+python-decouple==3.3
+pytz==2020.1
+six==1.15.0
+sqlparse==0.3.1
+virtualenv==20.0.31
+whitenoise==5.2.0

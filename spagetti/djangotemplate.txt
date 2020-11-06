@@ -1,0 +1,110 @@
+{{order.date_created | date:"d-m-y" }} {{order.date_created |time:"h:i a"}}
+
+<form class="form-inline" action="/store/" style="margin-top: 20px !important;">
+  <div class="form-group col-md-10">
+    <input type="search" name="query" class="form-control col-md-12" id="query" placeholder=" Search by name / brand / cateogry">
+  </div>
+  <div class="col-md-2">
+    <button type="submit" class="btn btn-outline-success btn-block">Search</button>
+  </div>
+</form>
+
+
+<li>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">
+                        <i class="fa fa-list-alt" aria-hidden="true"></i>
+                        Categories
+                    </a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <li>
+                            <a href="?category=name">Page 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 2</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 3</a>
+                        </li>
+                    </ul>
+                </li>
+                {% if user.is_authenticated %}
+                <li >
+                  <a class="nav-link" href="/orders"><i class="fas fa-file-invoice"></i> Orders </a>
+                </li>
+                <li >
+                    <a class="nav-link" href="/orders"><i class="fas fa-cog"></i> Settings </a>
+                </li>
+                    {% if user.is_staff %}
+                    <li>
+                        <a class="nav-link" href="/"><i class="fas fa-file"></i> Sales </a>
+                    </li>
+                    <li >
+                        <a href="#addSubmenu" data-toggle="collapse" aria-expanded="false">
+                            <i class="fa fa-box-open" aria-hidden="true"></i>
+                            Add to store
+                        </a>
+                        <ul class="collapse list-unstyled" id="addSubmenu">
+                            <li class="">
+                                <a class="nav-link" href="/store/product_add/ca"> Brand </a>
+                            </li>
+                            <li class="">
+                                <a class="nav-link" href="/store/product_add/brand"> Categories </a>
+                            </li>
+                           
+                            <li class="">
+                                <a class="nav-link" href="/store/product_add"> Products </a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                    
+                    {% endif %}
+                {% endif %}
+            </ul>
+           
+            
+            <ul class="list-unstyled CTAs">
+                {% if user.is_authenticated %}
+                <li>
+                    <a href="/logout" class="download"><i class="fa fa-sign-out"></i> Logut</a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="/login" class="download"><i class="fa fa-sign-in"></i> Login</a>
+                </li>
+                <li>
+                    <a href="/signup" class="article">Sign up</a>
+                </li>
+                {% endif %}
+
+
+
+   <div class="row mx-md-n0" style="margin-top: 1.1rem;">
+            <div class="col px-md-3"><div class="p-0">
+              <button data-product_id=""  data-action="add" data-qt = "" class="add-cart btn btn-sm btn-outline-primary">
+                Add 
+                <i class="fas fa-shopping-basket"></i>
+              </button>
+            </div>
+          </div>
+            <div class="col px-md-3"><div class="p-0 ">
+              <button class="btn btn-sm btn-outline-primary"> 
+                <i class="fa fa-minus" aria-hidden="true"></i>
+              </button>
+              <input type="text" name="" id=""  value="1" style="text-align:center; height: 30px;width: 30px;" class="border border-primary" readonly>
+              <button class="btn btn-sm btn-outline-primary"> 
+                <i class="fa fa-plus" aria-hidden="true"></i>
+              </button>
+              
+            </div>
+          </div>
+            {% if user.is_staff  %}  
+            <div class="col px-md-3">
+              <div class="p-0 ">
+                <button class="btn btn-sm btn-outline-dark float-right"> 
+                  <i class="fas fa-pencil"></i>
+                </button>
+              </div>
+            </div>
+            {% endif %}
+          </div>

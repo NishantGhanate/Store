@@ -1,0 +1,15 @@
+
+Transcations - 
+
+for order in orders:
+    item = order.orderitem_set.all()
+    for i in item:
+        print(i.product.product_id.name)
+
+
+Template - 
+
+{% for o in order.orderitem_set.all %}    
+    {{o.product.product_id.name}}
+    {{o.quantity}}
+{% endfor %}

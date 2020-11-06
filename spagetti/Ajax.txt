@@ -1,0 +1,21 @@
+var url = '/store/add_category/{{subcategories.0.category.id}}/add_subcategory';
+
+   $("#id_input").on('keyup', function(){
+        var value = $(this).val();
+        $.ajax({
+            url: "{% url 'ajax_autocomplete' %}",
+            data: {
+              'search': value 
+            },
+            dataType: 'json',
+            success: function (data) {
+                list = data.list;
+                console.log(list);
+                $("#id_input").autocomplete({
+                source: list,
+                minLength: 3 
+                });       
+            }
+        });        
+    });
+    

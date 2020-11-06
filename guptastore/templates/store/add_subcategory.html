@@ -1,0 +1,157 @@
+{% extends 'store/main.html' %}
+
+{% block title %} Add Sub category {% endblock%}
+{% block head %} {{subcategories.0.category.name}} {% endblock%}
+
+{% block content %}
+
+
+<div class="cart-col" style="font-size: small;">
+    <div class="col-lg-12">
+        <br>
+        <div class="box-element">
+          <div class="cart-row" >
+              <div style="flex: 1;"><strong>#</strong></div>
+              <div style="flex: 4;"><strong>Name</strong></div>
+              <div style="flex: 1;"><strong>Edit</strong></div>
+              <div style="flex: 1;"><strong>Delete</strong></div>
+          </div>
+          <div class="categories">
+            {% for subcategory in subcategories %}
+              <div class="cart-row" style="padding: 1rem;">
+                <div style="flex: 1;"> {{ forloop.counter }} </div>
+                <div style="flex: 4;"> <a href="/category/{{subcategory.category.id}}/subcategory/{{subcategory.id}}"> {{ subcategory.name }} </a> </div>   
+                <div style="flex: 1;"> <button class="edit-button" onclick="editCategory('edit_id','{{ subcategory.id }}', '{{subcategory.name}}' )"   data-toggle="modal" data-target="#addSubCategoryModal" > <i class="fas fa-pencil"></i> </button>  </div>   
+                <div style="flex: 1;"> <button class="remove-button" onclick="editCategory('delete_id','{{ subcategory.id }}', '{{subcategory.name}}' )"  data-toggle="modal" data-target="#deleteModalCenter"> <i class="fas fa-trash"></i> </button>  </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>          
+    </div>
+</div>
+
+
+<!-- Add/Edit  -->
+{% if user.is_staff  %}
+<a data-toggle="modal" data-target="#addSubCategoryModal" class="float" onclick="clearModal()">
+  <i class="fa fa-plus my-float"></i>
+</a>
+{% endif %}
+
+  <!-- Modal Edit -->
+<form  id="subcategoryEditForm">
+    <div class="modal fade" id="addSubCategoryModal" tabindex="-1" role="dialog" aria-labelledby="addSubCategoryModal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h6 class="modal-title" id="">Edit Category name</h6>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="">Sub category Name:</label>
+              <input id="input_category" type="text" name="name" class="form-control" placeholder="Sub category name" required>
+            </div>
+          </div>
+          <!-- modal-footer -->
+          <div class="modal-footer">
+            <input type="hidden" name="id" id="edit_id" value="">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save </button>
+          </div>
+        </div>
+      </div>
+    </div>
+</form>
+
+
+<!-- Modal Delete -->
+<form id="subcategoryDeleteForm"> 
+    <div class="modal fade" id="deleteModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="">Delete</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+            Are you sure you want to this delete this Sub category ? 
+            </div>
+            <div class="modal-footer">
+            <input type="hidden" name="id" id="delete_id" value="">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</form>
+  
+
+<script>
+    function editCategory(elem_id,id,name){
+      if(name != ''){
+        var input_category = document.getElementById("input_category");
+        input_category.value = name;
+      }
+      var category_id = document.getElementById(elem_id);
+      category_id.value = id;
+    }
+    function clearModal(){
+        document.getElementById("input_category").value = "";
+        document.getElementById("edit_id").value = "";
+    }
+</script>
+
+<!-- Ajax handler -->
+<script>
+      $("#subcategoryEditForm").submit(function (e) {
+        e.preventDefault();
+        var serializedData = $(this).serialize();
+        var token = '{{csrf_token}}';
+        var url = '{{redirect}}';
+        console.log(url);
+        $.ajax({
+              headers: { "X-CSRFToken": token },
+              type: 'POST',
+              url: url,
+              data: serializedData,
+              success: function (response) {
+                  window.location.href = response["redirect"];
+                  // alert(response["redirect"]);
+              },
+            error: function (response) {
+              // alert the error if any error occured
+              alert(response["error"]);
+            }
+        });
+  });
+  
+  
+  $("#subcategoryDeleteForm").submit(function (e) {
+        e.preventDefault();
+        var serializedData = $(this).serialize();
+        var token = '{{csrf_token}}';
+        var id = document.getElementById('delete_id').value;
+        
+        $.ajax({
+              headers: { "X-CSRFToken": token },
+              type: 'DELETE',
+              url: "/store/delete_subcategory/"+id,
+              data: serializedData,
+              success: function (response) {
+                  window.location.href = response["redirect"];
+              },
+            error: function (response) {
+              // alert the error if any error occured
+              alert(response["error"]);
+            }
+        });
+  });
+</script>
+{% endblock %}
+

@@ -1,0 +1,150 @@
+{% extends 'store/main.html' %}
+
+{% block title %} Edit {% endblock%}
+{% load static %}
+
+{% block content %}
+
+
+<!-- Contact Us Section -->
+<section class="Material-contact-section section-padding section-dark">
+    <div class="container" style="margin-top: 30px;">
+        <div class="row" >
+            <!-- Section  -->
+            <div class="col-md-12 wow animated fadeInLeft" data-wow-delay=".2s">
+                <h5 class="section-title">{{product.product_id.name | truncatechars:40}} </h5>
+            </div>
+        </div>
+        <div class="row">
+            <!-- Section  -->
+            <div class="col-md-6 mt-3 contact-widget-section2 wow animated fadeInLeft" data-wow-delay=".2s">
+                <p> Brand : {{product.product_id.brand}}  
+                    <br> Cateogry : {{product.product_id.sub_category}} 
+                    <br> Manufacture : {{product.product_id.manufacture}} 
+                </p> 
+              <div class="find-widget">
+                {% if product.image %}
+                <img src="{{product.image.url}}" class="product-edit" ></img>
+               {% else %}
+               <img src="{{product.product_id.product_image}}" class="product-edit" ></img>
+               {% endif %}
+            </div>
+            </div>
+
+            <!-- contact form -->
+            <div class="col-md-6 wow animated fadeInRight" data-wow-delay=".2s">
+                <form action="/store/edit_product/{{product.id}}" class="shake" role="form" method="post" id="contactForm" name="contact-form" data-toggle="validator">
+                    {% csrf_token %}   
+                    <!-- Name -->
+                    <!-- <div class="form-group label-floating">
+                      <label class="control-label" for="name">Image url</label>
+                      {% if product.image %}
+                      <input class="form-control" id="edit_url" type="text" name="image_url" value="{{product.image.url}}" required data-error="Enter correct url">
+                      {% else %}
+                      <input class="form-control" id="edit_url" type="text" name="image_url" value="{{product.image_url}}" required data-error="Enter correct url">
+                      {% endif %}
+                      <div class="help-block with-errors"></div>
+                    </div> -->
+                    <div class="form-group label-floating">
+                        <label class="control-label" for="phone">Weight</label>
+                        <input class="form-control" id="edit_weight" type="text" name="weight" value="{{product.weight}}" aria-required=”true” required data-error="Enter correct Weight" >
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <!-- Price -->
+                    <div class="form-group label-floating">
+                      <label class="control-label" for="price">Price</label>
+                      <input class="form-control" id="edit_price" type="text" name="price" value="{{product.price}}" required data-error="Enter correct price">
+                      <div class="help-block with-errors"></div>
+                    </div>
+                    <!-- Quantity -->
+                    <div class="form-group label-floating">
+                      <label class="control-label">Quantity</label>
+                      <input class="form-control" id="edit_quantity" type="tel" name="quantity" value="{{product.quantity}}" required data-error="Enter correct quantity">
+                      <div class="help-block with-errors"></div>
+                    </div>
+                    <!-- Stock -->
+                    <div class="form-group label-floating">
+                        <input type="checkbox" name="stock" id='checkbox_stock'  {% if product.stock %} checked {% endif %}>   In Stock 
+                        <div class="help-block with-errors"></div>
+                    </div>
+
+                    <!-- Form Submit -->
+                    <div class="form-submit mt-5">
+                        <button class="btn btn-outline-primary" type="submit" id=""><i class="material-icons mdi mdi-message-outline"></i> Save changes </button>
+                    </div>
+                </form>
+                <button class="button-cancel btn btn-outline-secondary" onclick="location.href = '/';"> Back </button>
+                <button class="btn btn-outline-danger"  data-toggle="modal" data-target="#deleteModalCenter"> Delete </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Delete modal -->
+<form id="productDeleteForm"> 
+    <div class="modal fade" id="deleteModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Delete</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+             Are you sure you want to this delete this product ? 
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</form>
+
+<style>
+    .product-edit{
+        width: 250px; 
+        height: 250px; 
+        margin-bottom: 20px;
+       
+    }
+    .button-cancel{
+        display: inline;
+        margin-right: 20px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    /* .img-outstock{
+        
+    } */
+</style>
+
+
+<script >
+    $("#productDeleteForm").submit(function (e) {
+      e.preventDefault();
+      var serializedData = $(this).serialize();
+      var token = '{{csrf_token}}';
+      $.ajax({
+            headers: { "X-CSRFToken": token },
+            type: 'DELETE',
+            url: "/store/product_edit/{{product.id}}",
+            data: serializedData,
+            success: function (response) {
+                window.location.href = response["redirect"];
+            },
+          error: function (response) {
+            // alert the error if any error occured
+            alert(response["error"]);
+          }
+      });
+  });
+</script>
+
+
+{% endblock %}
+

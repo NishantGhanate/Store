@@ -1,0 +1,242 @@
+{% extends 'store/main.html' %}
+
+{% block title %} Add Brand  {% endblock%}
+
+{% block head %} Add brands {% endblock%}
+
+{% block content %}
+
+<div class="cart-col" style="font-size: small;">
+  <div class="col-lg-12">
+      <div class="box-element">
+        <div class="cart-row" >
+            <div style="flex: 1;"><strong>#</strong></div>
+            <div style="flex: 4;"><strong>Name</strong></div>
+            <div style="flex: 1;"><strong>Edit</strong></div>
+            <div style="flex: 1;"><strong>Delete</strong></div>
+        </div>
+        <div class="brands" id="brand-row">
+          {% for brand in brands %}
+            <div class="cart-row">
+              <div style="flex: 1;"> {{ brand.id }} </div>
+              <div style="flex: 4;">  {{ brand.name }} </div>   
+              <div style="flex: 1;"> <button class="edit-button"   onclick="editBrand('edit_id','{{ brand.id }}', '{{brand.name}}' )"  data-toggle="modal" data-target="#addModal" > <i class="fas fa-pencil"></i> </button>  </div>   
+              <div style="flex: 1;"> <button class="delete-button" onclick="editBrand('delete_id','{{ brand.id }}', '{{brand.name}}' )"  data-toggle="modal" data-target="#deleteModal"> <i class="fas fa-trash"></i> </button>  </div>
+            </div>
+            {% endfor %}
+        </div>
+      </div>          
+  </div>
+</div>
+
+<!-- Modal Edit -->
+<form  id="brandEditForm">
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addBrandModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title" id="">Add / Edit Brand name</h6>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="brand-name">Brand Name:</label>
+          <input id="input_brand" type="text" name="name" class="form-control" placeholder="Brand name" required>
+        </div>
+      </div>
+      <!-- modal-footer -->
+      <div class="modal-footer">
+        <input type="hidden" name="id" id="edit_id" value="">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save </button>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
+<!-- Modal Delete -->
+<form id="brandDeleteForm"> 
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+          <h5 class="modal-title" id="">Delete</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+          </div>
+          <div class="modal-body">
+           Are you sure you want to this delete this Brand  ? 
+          </div>
+          <div class="modal-footer">
+          <input type="hidden" name="id" id="delete_id" value="">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-danger">Delete</button>
+          </div>
+      </div>
+      </div>
+  </div>
+</form>
+
+{% if user.is_staff  %}
+<a data-toggle="modal" data-target="#addModal" class="float" onclick="clearModal()">
+  <i class="fa fa-plus my-float"></i>
+</a>
+{% endif %}
+
+<!-- paginations -->
+<div style="margin-left: 2%; ">
+  {% if brands.has_other_pages %}
+  <ul class="pagination">
+    {% if brands.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page={{ brands.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><a class="page-link">&laquo;</a></li>
+    {% endif %}
+    {% for i in brands.paginator.page_range %}
+      {% if brands.number == i %}
+        <li class="page-item"><a class="page-link">{{ i }} <span class="sr-only">(current)</span></a></li>
+      {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if brands.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ brands.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><a class="page-link">&raquo;</a></li>
+    {% endif %}
+  </ul>
+  {% endif %}
+</div>
+
+
+<!-- Js modal data set -->
+<script>
+  function editBrand(elem_id,id,name){
+    if(name != ''){
+      var input_band = document.getElementById("input_brand");
+      input_band.value = name;
+    }
+    var brand_id = document.getElementById(elem_id);
+    brand_id.value = id;
+  }
+  function clearModal(){
+    document.getElementById("input_brand").value = "";
+    document.getElementById("edit_id").value = "";
+  }
+
+</script>
+
+
+<!-- Ajax handler -->
+<script>
+$("#brandEditForm").submit(function (e) {
+      e.preventDefault();
+      var serializedData = $(this).serialize();
+      // getToken();
+      var token = '{{csrf_token}}';
+      $.ajax({
+            headers: { "X-CSRFToken": token },
+            type: 'POST',
+            url: "/store/add_brand",
+            data: serializedData,
+            success: function (response) {
+              $("#addModal").modal('hide');
+              // window.location.href = response["redirect"];
+              var instance = JSON.parse(response["ser_instance"]);
+              var pk = instance[0]["pk"]
+              var fields = instance[0]["fields"];
+              console.log(fields,pk);
+              var divCartRow = document.createElement("div");
+              divCartRow.classList.add("cart-row");
+
+              var divBrandId = document.createElement("div");
+              divBrandId.innerHTML = pk;
+              divBrandId.style.flex = "1";
+
+              var divBrandName = document.createElement("div");
+              divBrandName.innerHTML = fields.name;
+              divBrandName.style.flex = "4";
+              
+              var divEdit = document.createElement("div").style.flex = "1";
+              
+              var editButton = document.createElement("button");
+              editButton.classList.add("edit-button");
+              var dataId = document.createAttribute("data-id");
+              dataId.value = pk;
+              var dataName   = document.createAttribute("data-name")
+              dataName.value = fields.name;
+              var editButtonTarget  = document.createAttribute("data-target")
+              editButtonTarget.value = "addModal";
+              var editButtontoggle  = document.createAttribute("data-toggle")
+              editButtontoggle.value= "modal";
+              editButton.setAttributeNode(dataId);
+              editButton.setAttributeNode(dataName);
+              editButton.setAttributeNode(editButtonTarget);
+              editButton.setAttributeNode(editButtontoggle);
+              var editLogo = document.createElement("i");
+              editLogo.classList.add("fas");
+              editLogo.classList.add("fa-pencil");
+              editButton.appendChild(editLogo);
+
+              var deleteButton = document.createElement("button")
+              deleteButton.classList.add("delete-button");
+              var dataId = document.createAttribute('data-id')
+              dataId.value = pk;
+              var dataName  =  document.createAttribute('data-name')
+              dataName.value = fields.name;
+              var deleteButtonTarget  = document.createAttribute('data-target')
+              deleteButtonTarget.value = "deleteModal";
+              var deleteButtontoggle  = document.createAttribute('data-toggle')
+              deleteButtontoggle.value= "modal";
+              deleteButton.setAttributeNode(dataId);
+              deleteButton.setAttributeNode(dataName);
+              deleteButton.setAttributeNode(deleteButtonTarget);
+              deleteButton.setAttributeNode(deleteButtontoggle);
+              var deleteLogo = document.createElement("i");
+              deleteLogo.classList.add("fas");
+              deleteLogo.classList.add("fa-trash");
+              deleteButton.appendChild(deleteLogo);
+
+              divCartRow.appendChild(divBrandId);
+              divCartRow.appendChild(divBrandName);
+              divCartRow.appendChild(editButton);
+              divCartRow.appendChild(deleteButton);
+              $("#brand-row").append(divCartRow);
+            },
+          error: function (response) {
+            // alert the error if any error occured
+            alert(response["error"]);
+          }
+      });
+});
+
+
+$("#brandDeleteForm").submit(function (e) {
+      e.preventDefault();
+      var serializedData = $(this).serialize();
+      var token = '{{csrf_token}}';
+      var id = document.getElementById('delete_id').value;
+      
+      $.ajax({
+            headers: { "X-CSRFToken": token },
+            type: 'DELETE',
+            url: "/store/delete_brand/"+id,
+            data: serializedData,
+            success: function (response) {
+                window.location.href = response["redirect"];
+            },
+          error: function (response) {
+            // alert the error if any error occured
+            alert(response["error"]);
+          }
+      });
+});
+</script>
+
+
+
+{% endblock %}

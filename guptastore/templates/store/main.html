@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    {% load tags %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    
+    <link  href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
+    crossorigin="anonymous"
+    rel="stylesheet" as="style" onload="this.onload=null;this.rel='stylesheet'"
+    >
+    
+    <link rel="stylesheet" href="{% static 'css/style3.css' %}"/>
+
+    <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" 
+    integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"
+    rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"
+    >
+    <noscript><link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"></noscript>
+   
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css"
+    rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css"></noscript>
+    
+
+    <link rel="icon" href="">
+    <script>var user = "{{request.user}}";</script>
+    <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>   
+    <title>{% block title %} Store {% endblock%}</title>
+</head>
+<body> 
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div id="dismiss">
+                <i class="fas fa-arrow-left"></i>
+            </div>
+            <div class="sidebar-header" >
+                <a href="/"> <h3> Kirana Store</h3> </a>
+            </div>
+            <ul class="list-unstyled components">
+                <!-- <p>Dummy Heading</p> -->
+                <form class="form-inline" action="" >
+                    <div class="form-group col-md-10">
+                      <input type="search" name="query" class="form-control col-md-13" id="query" placeholder=" e.g maggi ">
+                    </div>
+                    <div class="form-group col-md-12" style="display: block; margin-top: 10px;">
+                        <button type="submit" id="search-button" class="sidebar-button btn btn-light" style="margin:auto; width: 100%;">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                            Search 
+                        </button>
+                    </div>
+                </form>
+                <br>
+                <li class="active">
+                    <a href="/" > 
+                        <i class="fa fa-home" aria-hidden="true"></i>
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <a href="#categoriesSubmenu" data-toggle="collapse" aria-expanded="false">
+                        <i class="fa fa-list-alt" aria-hidden="true"></i>
+                        Categories
+                    </a>
+                    <ul class="collapse list-unstyled" id="categoriesSubmenu">
+                        {%  get_categories request as categories  %}
+                        {% for category in categories %}
+                        <li>
+                            <a href="/category/{{category.id}}">{{category}}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        ...
+                        <li class="dropdown-submenu">
+                          <a tabindex="-1" href="#">More options</a>
+                          <ul class="dropdown-menu">
+                            ...
+                          </ul>
+                        </li>
+                      </ul>
+                </li>
+                {% if user.is_authenticated %}
+                <li>
+                    <a href="/orders"> <i class="fas fa-bags-shopping"></i>  Orders</a>
+                </li>
+                <li>
+                    <a href="#"> <i class="fa fa-user" aria-hidden="true"></i> Profile</a>
+                </li>
+                {% endif %}
+            </ul>
+            {% if user.is_staff %}
+            <ul class="list-unstyled components"> 
+                <li>
+                    <a href="#"> <i class="fas fa-funnel-dollar"></i> Sales </a>
+                </li>
+                <li>
+                    <a href="#"> <i class="fas fa-tag" aria-hidden="true"></i> Coupon </a>
+                </li>
+                <li>
+                    <a href="/api"> <i class="fas fa-database" aria-hidden="true"></i> Api </a>
+                </li>
+            </ul>
+            <ul class="list-unstyled components"> 
+                <li>
+                    <a href="/store/add_brand"> <i class="fas fa-plus-square" aria-hidden="true"></i> Brand </a>
+                </li>
+                <li>
+                    <a href="/store/add_category"> <i class="fas fa-plus-square" aria-hidden="true"></i>  Categories </a>
+                </li>
+                <li>
+                    <a href="/store/add_product"> <i class="fas fa-plus-square" aria-hidden="true"></i>  Product  </a>
+                </li>
+               
+            </ul>  
+            {% endif %}
+            <ul class="list-unstyled CTAs">
+                {% if user.is_authenticated %}
+                <li>
+                    <a href="/logout" class="download"><i class="fa fa-sign-out"></i> Logut</a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="/login" class="download"><i class="fa fa-sign-in"></i> Login</a>
+                </li>
+                <li>
+                    <a href="/signup" class="article">Sign up</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+
+        <!-- Page Content  -->
+        <div id="content">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarCollapse" style="background-color:#0C9; padding:7px 15px; border: transparent;">
+                        <i class="fas fa-align-left" style="color: rgb(255, 255, 255); "></i>
+                        <span></span>
+                    </button>
+                    {% block head %} Store {% endblock%}
+                    <a class="nav-link cart" href="/cart" style="color:rgba(15, 16, 17, 0.5);"> 
+                        <i class="fas fa-shopping-cart"></i> 
+                        <span class="badge badge-danger " id='navCount'>  {% number_of_items request %} </span> 
+                    </a>  
+                </div>
+            </nav>
+            {% block content %}
+        
+            {% endblock %}
+        </div>
+    </div>
+
+    <div class="overlay"></div>
+
+
+<script src="{% static 'js/main.js' %}" ></script>
+<script src="{% static 'js/cart.js' %}" ></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#sidebar").mCustomScrollbar({
+            theme: "minimal"
+        });
+    
+        $('#dismiss, .overlay').on('click', function () {
+            $('#sidebar').removeClass('active');
+            $('.overlay').removeClass('active');
+        });
+    
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').addClass('active');
+            $('.overlay').addClass('active');
+            $('.collapse.in').toggleClass('in');
+            $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+    });
+</script>
+    
+<!-- Scripts heckerman123 -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" 
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" 
+    crossorigin="anonymous">
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" 
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" 
+    crossorigin="anonymous">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+</body>
+</html>

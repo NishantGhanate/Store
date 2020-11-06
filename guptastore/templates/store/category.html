@@ -1,0 +1,21 @@
+{% extends 'store/main.html' %}
+
+{% block title %} Category {% endblock%}
+
+{% block content %}
+
+
+<div class="category row">
+    {% for s in sub_cateogry %}
+    <div class="sub-category col-md-3" onclick="location.href='subcategory/{{s.id}}';">
+        <div class="card mb-2 box-shadow">
+            <img class="card-img-top" src="{{s.image_url}}" alt="{{s.name}}">
+            <div class="card-body">
+                <h5 class="card-title" style="text-align: center;">{{s.name}}</h5>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

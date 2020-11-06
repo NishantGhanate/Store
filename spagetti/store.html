@@ -1,0 +1,66 @@
+<div class="row">
+    {% for p in products %}
+    <div class="product col-md-4 ">
+      <div class="card mb-4 box-shadow">
+        <div class="card-body">
+          {% if p.image %}
+            <img class="product-image" data-src="" alt="{{p.product_id.name}}"  src="{{p.image.url}}" data-holder-rendered="true">
+          {% else %}
+            <img class="product-image" alt="{{p.product_id.name}}" src='{{p.image_url}}'/>
+          {% endif %}
+          <p style='font-size:1px bold; color: #000 !important; '> {{p.product_id.name | truncatechars:40  }} </p>
+          <p class="" style='display:inline; '>  MRP:  ₹  {{p.price }}  -  {{p.weight }} </p>
+          <br>
+          <br>
+          <span style="font-size: 0.7rem;">  (Inclusive of all taxes) </span>
+          <div class="d-flex justify-content-between align-items-center" style="margin-top: 1rem;">
+            <div class="btn-group">
+              <button data-product_id="{{p.id}}"  data-action="add" data-qt = "{{p.quantity}}"
+              class="add-cart btn btn-sm btn-outline-primary">
+              Add to cart
+            </button>
+              {% if user.is_staff  %}
+                <button class="btn btn-sm btn-outline-primary" onclick="location.href = '/store/product_edit/{{p.id}}';" style="margin-left: 5px;"> 
+                  <i class="fas fa-pencil"></i>
+                </button>
+              {% endif %}
+            </div>
+           
+            <small class="text-muted" style="margin-left: 2.8rem; text-overflow: ellipsis;">  {{p.product_id.brand }} </small>
+            <small class="text-muted"> {{p.product_id.cateogry }}  </small>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+<div>
+  {% if products.has_other_pages %}
+  <ul class="pagination">
+    {% if products.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page={{ products.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><a class="page-link">&laquo;</a></li>
+    {% endif %}
+    {% for i in products.paginator.page_range %}
+      {% if products.number == i %}
+        <li class="page-item"><a class="page-link">{{ i }} <span class="sr-only">(current)</span></a></li>
+      {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if products.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ products.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><a class="page-link">&raquo;</a></li>
+    {% endif %}
+  </ul>
+  {% endif %}
+</div>
+
+{% if user.is_staff  %}
+<a href="/store/product_add" class="float">
+  <i class="fa fa-plus my-float"></i>
+</a>
+{% endif %}
