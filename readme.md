@@ -104,6 +104,9 @@ DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 ```
 
 ### Run :
+
+> python manage.py makemigrations
+
 > python manage.py migrate
 
 > python manage.py createsuperuser
