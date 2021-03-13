@@ -35,9 +35,9 @@
 ### Demo Not hosted yet :-
 
 | Website       | URL                  |
-| ------------- | ------------------------------ |
-| Heroku           |  |
-| Pythonanywhere   |  |
+| ------------- | -------------------- |
+|       AWS     |  www.www.ww          |
+
 
 <br/>
 
@@ -116,8 +116,8 @@ DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 
 &nbsp;
 
-### Easy guide to host on python anywhere
-> https://tutorial.djangogirls.org/en/deploy/
+### Easy guide to host on django on aws
+> https://www.youtube.com/watch?v=ypnEf7W8db0&ab_channel=AwaisMirza
 
 &nbsp;
 
