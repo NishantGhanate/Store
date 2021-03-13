@@ -18,7 +18,7 @@
 
     option_settings:
       aws:elasticbeanstalk:container:python:
-        WSGI: store/wsgi.py
+        WSGI: store.wsgi.py
 
 
 > decative 
@@ -28,7 +28,7 @@
 ```sh
 > pip install awscli
 
-> eb init -p python=3.6 aws env
+> eb init -p python-3.6 store ( creates application on aws)
 
 aws credtions from account > my security cred > Access keys (access key ID and secret access key)
 
@@ -52,7 +52,7 @@ aws credtions from account > my security cred > Access keys (access key ID and s
 
 > visit eslatic beans talk > applications 
 
-> eb create store
+> eb create store-env
 
 To handle wsgi error 
 >  push code to git repo / eb deploy --staged
