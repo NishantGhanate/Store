@@ -104,7 +104,7 @@ DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 ```
 
 ### Run :
-
+```sh
 > python manage.py makemigrations
 
 > python manage.py migrate
@@ -112,7 +112,7 @@ DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 > python manage.py createsuperuser
 
 > python manage.py runserver
-
+```
 
 &nbsp;
 

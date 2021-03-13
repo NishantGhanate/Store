@@ -17,8 +17,8 @@
 > nano .ebextensions/django.config
 
     option_settings:
-	aws:elasticbeanstalk:container:python:
-		WSGI: store/wsgi.py
+      aws:elasticbeanstalk:container:python:
+        WSGI: store/wsgi.py
 
 
 > decative 
